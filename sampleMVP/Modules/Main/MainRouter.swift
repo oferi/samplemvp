@@ -10,6 +10,7 @@ import UIKit
 
 protocol MainRouterProtocol {
     func navigateToLogin()
+    func navigateToDetails(item: String)
 }
 
 class MainRouter: MainRouterProtocol {
@@ -29,6 +30,14 @@ class MainRouter: MainRouterProtocol {
     func navigateToLogin() {
         let loginRouter = LoginRouter(window: window)
         loginRouter.start()
+    }
+    
+    func navigateToDetails(item: String) {
+        guard let navigationController = window.rootViewController as? UINavigationController else {
+            fatalError("RootViewController is not a UINavigationController")
+        }
+        let details = DetailsModuleFactory.createModule(item: item)
+        navigationController.pushViewController(details, animated: true)
     }
     
     deinit {

@@ -13,7 +13,8 @@ class MainModuleFactory {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let view = storyboard.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
         let authService = AuthService.shared
-        let presenter = MainPresenter(view: view, router: router, authService: authService)
+        let model = MainModel(emoji: "face.smiling")
+        let presenter = MainPresenter(view: view, router: router, authService: authService, model: model)
         view.presenter = presenter
         return view
     }

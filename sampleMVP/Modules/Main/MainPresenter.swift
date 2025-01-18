@@ -7,28 +7,33 @@
 
 import Foundation
 
-protocol MainView: AnyObject {
-    
+protocol MainViewProtocol: AnyObject {
+    func showEmoji(emoji: String)
 }
 
 protocol LogoutAbleProtocol {
     func logout()
 }
 
-extension LogoutAbleProtocol {
-    func logout() {
-        
-    }
-}
-
-class MainPresenter: LogoutAbleProtocol {
-    private weak var view: MainView?
+class MainPresenter {
+    private weak var view: MainViewProtocol?
     private let authService: AuthServiceProtocol
     private let router: MainRouterProtocol
+    private let model: MainModel
     
-    init(view: MainView, router: MainRouterProtocol, authService: AuthServiceProtocol) {
+    init(view: MainViewProtocol, router: MainRouterProtocol, authService: AuthServiceProtocol, model: MainModel) {
+        self.view = view
         self.authService = authService
         self.router = router
+        self.model = model
+    }
+    
+    func viewDidLoad() {
+        view?.showEmoji(emoji: model.emoji)
+    }
+    
+    func imageTapped(item: String) {
+        router.navigateToDetails(item: item)
     }
     
     func logout() {
